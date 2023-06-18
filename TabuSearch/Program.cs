@@ -45,7 +45,7 @@ namespace TabuSearch
             } */
             
             //FOR TESTING: CREATE AND PRINT THE INITIAL TOUR USED IN THE TABU SEARCH ALGORITHM - CAN BE DELETED
-            ResultingTour initialTour = InitialSolution.NearestNeighbourTour(2, sortedNodesList);
+            ResultingTour initialTour = InitialSolution.ShortestNearestNeighbour(sortedNodesList);
             initialTour.PrintTourAndDistance();
             Console.WriteLine("");
             
