@@ -26,5 +26,10 @@ namespace TabuSearch
             double distance = Math.Sqrt(Math.Pow(X - p.X, 2) + Math.Pow(Y - p.Y, 2));
             return distance;
         }
+
+        public override string ToString()
+        {
+            return $"{Id}";
+        }
     }
 }

@@ -48,16 +48,19 @@ namespace TabuSearch
             ResultingTour initialTour = InitialSolution.NearestNeighbourTour(2, sortedNodesList);
             initialTour.PrintTourAndDistance();
             Console.WriteLine("");
+            
 
             //set the tabu tenure
             int tabuTenure = 3;
-
+            //test
+            List < Node > adfa = new List<Node>();
+            Operators.NodeShiftTwo(initialTour, TabuSearch.UpdateTabuList(tabuTenure, initialTour.Tour[0], adfa));
             //set maximal itinerations as a stopping criterion
             int maxItinerations = 100;
             int maxItinerationsWithoutImprovement = 20;
 
             //perform the tabu search, print out the tour after finishing the algorithm and print it out 
-            ResultingTour newTour = TabuSearch.TabuSearchAlgorithm(tabuTenure, sortedNodesList, maxItinerations, maxItinerationsWithoutImprovement);
+            ResultingTour newTour = TabuSearch.TabuSearchAlgorithm(tabuTenure, sortedNodesList, maxItinerations, maxItinerationsWithoutImprovement, 2);
             newTour.PrintTourAndDistance();            
 
             Console.ReadKey();

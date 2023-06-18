@@ -108,5 +108,113 @@ namespace TabuSearch
 
             return improvedTourObject;
         }
+
+
+        public static Tuple<Node, int> NodeShiftTwo(ResultingTour tour, List<Node> tabuList)
+        {
+            //swap 2 consecutive nodes with 2 consecutive nodes
+            //helping variables to find beneficial swaps
+            double bestKnownImprovedDistance = double.MaxValue;
+            Node FirstShiftNode = null;
+            int ShiftToPosition = -1;
+            Node swappedPoint1 = null;
+            Node swappedPoint2 = null;
+
+            /* itinerate over the tour (except the last node=starting node due to simplicity for swap) for two nodes and
+             * find the best nodes exchange without considering nodes in the tabu list
+             */
+            for (int i = 0; i < tour.Tour.Count - 1; i++)
+            {
+                Console.WriteLine();
+                if (tabuList.Any(node => node == tour.Tour[i] || node == tour.Tour[i+1]))
+                    continue;                                      //don't consider (skip) node "i" in the tour if it is in the tabu list!
+                else
+                {
+                    for (int j = 0; j < tour.Tour.Count - 2; j++)
+                    {
+                        if (tabuList.Any(node => node == tour.Tour[j] || node == tour.Tour[j + 1]))
+                            continue;                             //don't consider (skip) node "j" in the tour if it is in the tabu list!
+                        else
+                        {
+                            if (i != j)     //to not swap the same node
+                            {
+                                /* copy the tour and add all points to the copied list except the last node (=starting node) for 
+                                 * simplicity for the swap (otherwise messy if the last point should be swapped)
+                                 * the idea of creating a new list copying the original tour at each itineration is to have the
+                                 * original tour unmanipulated and to start with a fresh copy of the original tour because
+                                 * we want to determine the only one best swap for the original tour
+                                 */
+                                List<Node> tourCopy = tour.Tour.ToList();
+
+                                double tourDistance = 0;    //to calculate the distance of the copied tour
+
+                                //swap points at positions i and j in the tour, using the copy of the original initial tour
+                                swappedPoint1 = tourCopy[i];
+                                swappedPoint2 = tourCopy[i+1];
+                                tourCopy.Remove(swappedPoint1);
+                                tourCopy.Remove(swappedPoint2);
+
+                                tourCopy.Insert(j, swappedPoint1);
+                                tourCopy.Insert(j+1, swappedPoint2);
+                                Console.WriteLine();
+                                //foreach (Node node2 in tourCopy)
+                                  //  Console.Write(node2 + " ");
+
+                                //add the starting node to the tour copy to be also the last node in order to complete the tour
+                                tourCopy.Add(tourCopy.First());
+
+                                //recalculate tour length (with last node=starting node) after exchanging nodes
+                                for (int k = 0; k < tourCopy.Count; k++)
+                                {
+                                    if ((k + 1) < tourCopy.Count)   //to not get out of range
+                                        tourDistance += tourCopy[k].DistanceToNode(tourCopy[k + 1]);
+                                }
+
+                                if (tourDistance < bestKnownImprovedDistance)   //in case of improvement
+                                {
+                                    bestKnownImprovedDistance = tourDistance;   //best known improved distance is updated with the new one best solution so far
+                                    FirstShiftNode = swappedPoint1;        //new first node for swap, contains node "i" before swapping
+                                    ShiftToPosition = j;        //new first node for swap, contains node "j" before swapping
+                                }
+                            }
+                            else
+                                continue;   //skip if i=j because swapping the same point with itself doesn't make sense
+                        }
+                    }
+                }
+            }
+
+            //return the two nodes whose swap will give the best result
+            return Tuple.Create(FirstShiftNode, ShiftToPosition);
+        }
+        public static ResultingTour ShiftNodes(ResultingTour tour, Node node1, int Position1)
+        {
+            //add the tour to the new list without the last node (=starting node) for simplicity for the swapping
+            List<Node> improvedTour = tour.Tour;
+
+
+            //determine the index of the nodes for swap in the tour and perform the swap
+            int index = tour.Tour.IndexOf(node1);
+            Node p2 = tour.Tour[index+1];
+            tour.Tour.Remove(node1);
+            tour.Tour.Remove(p2);
+
+            tour.Tour.Insert(Position1, node1);
+            tour.Tour.Insert(Position1 + 1, p2);           
+
+
+            //calculate the total tour length of the improved tour
+            double improvedTourDistance = 0;
+            for (int k = 0; k < improvedTour.Count; k++)
+            {
+                if ((k + 1) < improvedTour.Count)   //to not get out of range
+                    improvedTourDistance += improvedTour[k].DistanceToNode(improvedTour[k + 1]);
+            }
+
+            //create an object of ResultingTour which is the output of this method
+            ResultingTour improvedTourObject = new ResultingTour(improvedTourDistance, improvedTour);
+
+            return improvedTourObject;
+        }
     }
 }
