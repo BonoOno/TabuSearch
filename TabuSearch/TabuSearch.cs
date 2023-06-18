@@ -30,7 +30,7 @@ namespace TabuSearch
             return tabuList;
         }
 
-        public static ResultingTour TabuSearchAlgorithm(int tabuTenure, SortedList<int, Node> nodesList, int maxItinerations)
+        public static ResultingTour TabuSearchAlgorithm(int tabuTenure, SortedList<int, Node> nodesList, int maxItinerations , int maxIterationsWithoutImprovement)
         {
             //create and initialize an initial solution using the nearest neighbour algorithm, starting with node with id=3
             ResultingTour incumbentTour = InitialSolution.NearestNeighbourTour(2, nodesList);
@@ -49,8 +49,9 @@ namespace TabuSearch
 
             //stopping criterion: itinerations
             int currentItineration = 1;
+            int counterNoImprovements = 0;
 
-            while (currentItineration <= maxItinerations)
+            while (currentItineration <= maxItinerations && counterNoImprovements <= maxIterationsWithoutImprovement)
             {
                /* //FOR TESTING (SOLUTION TRACKING: tabu list)
                 if (tabuList.Count == 0)
@@ -82,22 +83,28 @@ namespace TabuSearch
                  */
                 incumbentTour = Operators.SwapNodes(incumbentTour, node1, node2);
 
-              /*  //FOR TESTING (SOLUTION TRACKING: nodes to be swapped)
-                Console.Write("Nodes for swap: ");
-                Console.WriteLine($"{node1.Id} -> {node2.Id}");
+                /*  //FOR TESTING (SOLUTION TRACKING: nodes to be swapped)
+                  Console.Write("Nodes for swap: ");
+                  Console.WriteLine($"{node1.Id} -> {node2.Id}");
 
-                //FOR TESTING (SOLUTION TRACKING: tour after operator)
-                foreach (Node n in incumbentTour.Tour)
-                    Console.Write($"{n.Id}->");
-                Console.WriteLine($"\n{Math.Round(incumbentTour.TourDistance, 2)}");
-                Console.WriteLine("");
-                //END TESTING */
+                  //FOR TESTING (SOLUTION TRACKING: tour after operator)
+                  foreach (Node n in incumbentTour.Tour)
+                      Console.Write($"{n.Id}->");
+                  Console.WriteLine($"\n{Math.Round(incumbentTour.TourDistance, 2)}");
+                  Console.WriteLine("");
+                  //END TESTING */
 
                 /* if the tour manipulated by the applied operator has a better fitness value than the best known tour so far, 
                  * this tour should become the best known tour so far
                  */
                 if (incumbentTour.TourDistance < bestTourAfterTabuSearch.TourDistance)
-                    bestTourAfterTabuSearch = incumbentTour;
+                { bestTourAfterTabuSearch = incumbentTour;
+                    counterNoImprovements = 0;
+                }               
+                else
+                {
+                    counterNoImprovements++;
+                }
 
                 //increase the itineration by one to move to the next itineration
                 currentItineration++;

@@ -54,9 +54,10 @@ namespace TabuSearch
 
             //set maximal itinerations as a stopping criterion
             int maxItinerations = 100;
+            int maxItinerationsWithoutImprovement = 20;
 
             //perform the tabu search, print out the tour after finishing the algorithm and print it out 
-            ResultingTour newTour = TabuSearch.TabuSearchAlgorithm(tabuTenure, sortedNodesList, maxItinerations);
+            ResultingTour newTour = TabuSearch.TabuSearchAlgorithm(tabuTenure, sortedNodesList, maxItinerations, maxItinerationsWithoutImprovement);
             newTour.PrintTourAndDistance();            
 
             Console.ReadKey();
