@@ -123,9 +123,9 @@ namespace TabuSearch
             /* itinerate over the tour (except the last node=starting node due to simplicity for swap) for two nodes and
              * find the best nodes exchange without considering nodes in the tabu list
              */
-            for (int i = 0; i < tour.Tour.Count - 1; i++)
+            for (int i = 0; i < tour.Tour.Count - 2; i++)
             {
-                Console.WriteLine();
+                //Console.WriteLine();
                 if (tabuList.Any(node => node == tour.Tour[i] || node == tour.Tour[i+1]))
                     continue;                                      //don't consider (skip) node "i" in the tour if it is in the tabu list!
                 else
@@ -145,6 +145,7 @@ namespace TabuSearch
                                  * we want to determine the only one best swap for the original tour
                                  */
                                 List<Node> tourCopy = tour.Tour.ToList();
+                                tourCopy.RemoveAt(tourCopy.Count-1);
 
                                 double tourDistance = 0;    //to calculate the distance of the copied tour
 
@@ -156,7 +157,7 @@ namespace TabuSearch
 
                                 tourCopy.Insert(j, swappedPoint1);
                                 tourCopy.Insert(j+1, swappedPoint2);
-                                Console.WriteLine();
+                                //Console.WriteLine();
                                 //foreach (Node node2 in tourCopy)
                                   //  Console.Write(node2 + " ");
 
@@ -191,17 +192,19 @@ namespace TabuSearch
         {
             //add the tour to the new list without the last node (=starting node) for simplicity for the swapping
             List<Node> improvedTour = tour.Tour;
+            improvedTour.RemoveAt(improvedTour.Count - 1);
 
 
             //determine the index of the nodes for swap in the tour and perform the swap
             int index = tour.Tour.IndexOf(node1);
+
             Node p2 = tour.Tour[index+1];
             tour.Tour.Remove(node1);
             tour.Tour.Remove(p2);
 
             tour.Tour.Insert(Position1, node1);
-            tour.Tour.Insert(Position1 + 1, p2);           
-
+            tour.Tour.Insert(Position1 + 1, p2);
+            improvedTour.Add(improvedTour.First());
 
             //calculate the total tour length of the improved tour
             double improvedTourDistance = 0;
@@ -216,5 +219,6 @@ namespace TabuSearch
 
             return improvedTourObject;
         }
+
     }
 }

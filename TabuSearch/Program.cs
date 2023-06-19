@@ -1,6 +1,7 @@
 ﻿using System;
 using System.CodeDom;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -43,7 +44,10 @@ namespace TabuSearch
                     Console.WriteLine("Your input is not valid (integer is required)! Try again.");
                 }
             } */
-            
+            //initialize stopwatch
+            Stopwatch sw = new Stopwatch();
+            sw.Start();    
+
             //FOR TESTING: CREATE AND PRINT THE INITIAL TOUR USED IN THE TABU SEARCH ALGORITHM - CAN BE DELETED
             ResultingTour initialTour = InitialSolution.NearestNeighbourTour(2, sortedNodesList);
             initialTour.PrintTourAndDistance();
@@ -53,16 +57,19 @@ namespace TabuSearch
             //set the tabu tenure
             int tabuTenure = 3;
             //test
-            List < Node > adfa = new List<Node>();
-            Operators.NodeShiftTwo(initialTour, TabuSearch.UpdateTabuList(tabuTenure, initialTour.Tour[0], adfa));
+            //List < Node > adfa = new List<Node>();
+            //Operators.NodeShiftTwo(initialTour, TabuSearch.UpdateTabuList(tabuTenure, initialTour.Tour[0], adfa));
             //set maximal itinerations as a stopping criterion
             int maxItinerations = 100;
             int maxItinerationsWithoutImprovement = 20;
 
             //perform the tabu search, print out the tour after finishing the algorithm and print it out 
-            ResultingTour newTour = TabuSearch.TabuSearchAlgorithm(tabuTenure, sortedNodesList, maxItinerations, maxItinerationsWithoutImprovement, 2);
+            ResultingTour newTour = TabuSearch.TabuSearchAlgorithm(tabuTenure, sortedNodesList, maxItinerations, maxItinerationsWithoutImprovement, 2, 2);
             newTour.PrintTourAndDistance();            
 
+            sw.Stop();
+
+            Console.WriteLine("Elapsed milliseconds: " + sw.ElapsedMilliseconds);
             Console.ReadKey();
         }
     }

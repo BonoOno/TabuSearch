@@ -31,7 +31,7 @@ namespace TabuSearch
             //benefit: code can be used for many different instances without having to adjust line indices etc.
             int startOfNodesSection = Array.FindIndex(importPoints, line => line.Contains("NODE_COORD_SECTION")) + 1;
 
-            for (int i = startOfNodesSection; i < 15; i++)
+            for (int i = startOfNodesSection; i < importPoints.Length; i++)
             {
                 if (importPoints[i].StartsWith("EOF")) //if line in the input file starts with EOF, stop adding as the nodes are over
                     break;
