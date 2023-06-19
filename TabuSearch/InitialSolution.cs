@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +8,30 @@ namespace TabuSearch
 {
     public static class InitialSolution
     {
+        
+        //method to find shortest inital solution by iterating through all possible startingpoints
+        public static ResultingTour ShortestNearestNeighbour(SortedList<int,Node> pointsList) 
+        {
+            double shortestDistance = double.MaxValue;
+            List<Node> shortestTour = null;
+
+            // iterate over all points and use them as starting point for the nearest neighbour algorithm
+            for (int startingIndex = 0; startingIndex < pointsList.Count; startingIndex++)
+            {
+                ResultingTour tourResult = NearestNeighbourTour(startingIndex, pointsList);
+                double tourDistance = tourResult.TourDistance;
+
+                // check, if current tour is shorter than the latest shortest tour
+                if (tourDistance < shortestDistance)        // if yes, update tour & tourdistance, if not, do nothing, continue iterate through all tours
+                {
+                    shortestDistance = tourDistance;
+                    shortestTour = tourResult.Tour;
+                }
+            }
+            ResultingTour shortestnearestNeighbourTour = new ResultingTour(shortestDistance, shortestTour);        // update output
+            return shortestnearestNeighbourTour;
+        }
+        
         //method to generate a tour considering the nearest neighbour with an output object from class ResultingTour
         public static ResultingTour NearestNeighbourTour(int startingIndex, SortedList<int, Node> pointsList)
         {
@@ -30,7 +54,7 @@ namespace TabuSearch
             nonVisitedPoints.Remove(tour[0]);
 
             //variables to determine the nearest neighbour (find the minimal distance and the nearest neighbour)
-            double minimalDistance = 1000000000;
+            double minimalDistance = double.MaxValue;
             double distanceToNeighbour = 0;
             Node nextNeighbour = null;
 
@@ -94,6 +118,7 @@ namespace TabuSearch
             ResultingTour nearestNeighbourTour = new ResultingTour(tourDistance, tour);
             return nearestNeighbourTour;
         }
+
 
         //method to generate a tour considering a random starting with an output object from class ResultingTour
         public static ResultingTour RandomTour(int startingIndex, SortedList<int, Node> pointsList)

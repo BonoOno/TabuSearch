@@ -33,7 +33,7 @@ namespace TabuSearch
         public static ResultingTour TabuSearchAlgorithm(int tabuTenure, SortedList<int, Node> nodesList, int maxItinerations, int maxIterationsWithoutImprovement, int selectOperator, int selectStoppingCriterion)
         {
             //create and initialize an initial solution using the nearest neighbour algorithm, starting with node with id=3
-            ResultingTour incumbentTour = InitialSolution.NearestNeighbourTour(2, nodesList);
+            ResultingTour incumbentTour = InitialSolution.ShortestNearestNeighbour(nodesList);
 
             /* create ResultingTour as output of the TabuSearch and initialize it at the beginning with the initial tour
              * because it is the best known tour so far
