@@ -39,8 +39,8 @@ namespace TabuSearch
                 {
                     string[] nodesArray = importPoints[i].Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries); //split each line and have separately id, x and y for each node; RemoveEmptyEntires needed because some lines have 2 or 3 spaces between values
                     int id = int.Parse(nodesArray[0]);
-                    int x = int.Parse(nodesArray[1]);
-                    int y = int.Parse(nodesArray[2]);
+                    double x = double.Parse(nodesArray[1]);
+                    double y = double.Parse(nodesArray[2]);
                     Node node = new Node(id, x, y);
                     nodesList.Add(node.Id, node);
                 }

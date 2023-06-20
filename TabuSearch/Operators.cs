@@ -125,7 +125,7 @@ namespace TabuSearch
              */
             for (int i = 0; i < tour.Tour.Count - 2; i++)
             {
-                //Console.WriteLine();
+                Console.WriteLine();
                 if (tabuList.Any(node => node == tour.Tour[i] || node == tour.Tour[i+1]))
                     continue;                                      //don't consider (skip) node "i" in the tour if it is in the tabu list!
                 else
@@ -157,9 +157,9 @@ namespace TabuSearch
 
                                 tourCopy.Insert(j, swappedPoint1);
                                 tourCopy.Insert(j+1, swappedPoint2);
-                                //Console.WriteLine();
-                                //foreach (Node node2 in tourCopy)
-                                  //  Console.Write(node2 + " ");
+                                Console.WriteLine();
+                                foreach (Node node2 in tourCopy)
+                                    Console.Write(node2 + " ");
 
                                 //add the starting node to the tour copy to be also the last node in order to complete the tour
                                 tourCopy.Add(tourCopy.First());

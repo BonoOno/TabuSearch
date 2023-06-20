@@ -162,7 +162,7 @@ namespace TabuSearch
                          */
                         incumbentTour = Operators.SwapNodes(incumbentTour, node1, node2);
                     }
-                    else
+                    else //use stopping criterion iteration without improvements
                     {
                         Tuple<Node, int> operatorShift = Operators.NodeShiftTwo(incumbentTour, tabuList);
                         node1 = operatorShift.Item1;
@@ -199,7 +199,6 @@ namespace TabuSearch
                     {
                         counterNoImprovements++;
                     }
-
                     //increase the itineration by one to move to the next itineration
                     currentItineration++;
                 }

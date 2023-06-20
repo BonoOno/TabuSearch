@@ -9,11 +9,11 @@ namespace TabuSearch
     public class Node
     {
         public int Id { get; set; }
-        public int X { get; set; }
+        public double X { get; set; }
 
-        public int Y { get; set; }
+        public double Y { get; set; }
 
-        public Node(int id, int x, int y)
+        public Node(int id, double x, double y)
         {
             Id = id;
             X = x;

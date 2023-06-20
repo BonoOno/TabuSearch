@@ -14,7 +14,7 @@ namespace TabuSearch
         static void Main(string[] args)
         {
             //inputPath has to be changed with the own path of the input file!!!
-            string inputPath = "C:\\Users\\Lukas\\Downloads\\TabuSearch\\bier127.tsp";
+            string inputPath = "C:\\Users\\Lukas\\Downloads\\TabuSearch\\ch130.tsp";
             FileHandler data1 = new FileHandler(inputPath);
 
             //create a sortednodesList and fill it with all nodes from the imported file
